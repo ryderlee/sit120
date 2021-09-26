@@ -1,0 +1,72 @@
+<html>
+    <head>
+      <title> SIT120 Task 3</title>
+      <style type="text/css">
+        .numbering {
+            font-weight : bold;
+
+        }
+      </style>
+      <script>
+          function task_status_change(in_element){
+              elementID = in_element.id.replace("checkbox_", "task_");
+              document.getElementById(elementID).innerHTML = (in_element.checked ? "Completed" : "Not Completed Yet");
+              return true;
+          }
+      </script>
+      <link rel = "stylesheet" type = "text/css" href="task2.css" />
+      <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+    
+    </head>
+    <body>
+        <table> 
+            <tr>
+                <td colspan="3">
+                    <h1 style="font-weight: bold; color : red;">My routine for SIT120</h1>
+                </td>
+            </tr>
+            <tr>
+                <td class="numbering">
+                   #1
+                </td>
+                <td class="task_item">
+                    weekly class video <a href='https://web.microsoftstream.com/video/4f05cee7-bafd-43c8-808c-14afc63b9f07'>Link</a>
+                </td>
+                <td>
+                    <input id="checkbox_1" type="checkbox" onchange="task_status_change(this);"/>
+                </td>
+                <td id="task_1">
+                    Not Completed Yet 
+                </td>
+            </tr>
+            <tr>
+                <td class="numbering">
+                   #2
+                </td>
+                <td class="task_item">
+                   practice on github
+                </td>
+                <td>
+                    <input id="checkbox_2" type="checkbox" onchange="task_status_change(this);"/>
+                </td>
+                <td id="task_2">
+                    Not Completed Yet 
+                </td>
+            </tr>
+            <tr>
+                <td class="numbering">
+                   #3
+                </td>
+                <td class="task_item">
+                    submit assessment
+                </td>
+                <td>
+                    <input id="checkbox_3" type="checkbox" onchange="task_status_change(this);"/>
+                </td>
+                <td id="task_3">
+                    Not Completed Yet 
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

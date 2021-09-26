@@ -1,0 +1,71 @@
+<html>
+
+<head>
+    <title> SIT120 Task 4</title>
+    <style type="text/css">
+        .numbering {
+            font-weight: bold;
+        }
+        .isNotCompleted {
+            text-decoration: underline;
+            color : green;
+        }
+        .isCompleted{
+            text-decoration: line-through;
+            color: grey;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new Vue({
+                el: "#todo1",
+                data : {
+                    message : "My routine for SIT120",
+                    taskList  : [
+                        {
+                            id:1,
+                            title: 'weekly class video',
+                            isDone: false
+                        },
+                        {
+                            id:2,
+                            title: 'practice on github',
+                            isDone: false
+                        },
+                        {
+                            id:3,
+                            title: 'submit assessment',
+                            isDone: false
+                        }
+                    ]
+                }
+            });
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="task2.css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+</head>
+<body>
+    <div id="todo1">
+        <table> 
+            <tr>
+                <td colspan="3">
+                    <h1 style="font-weight: bold; color : red;">{{message}}</h1>
+                </td>
+            </tr>
+            <tr v-for="(item, index) in taskList">
+                <td class="numbering">
+                   #{{item.id}}
+                </td>
+                <td v-bind:class="[item.isDone ? 'isCompleted' : 'isNotCompleted']">
+                    {{item.title}}
+                </td>
+                <td>
+                    <input type="checkbox" v-model="item.isDone" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
