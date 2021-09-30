@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIT120 Task 6</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tm = new Vue({
+                el: '#user-form',
+                data: function (){
+                    return {
+                        titles:[
+                            { id:0, name:'Mr.', value:'mr' },
+                            { id:1, name:'Miss', value:'miss' },
+                            { id:2, name:'Mrs', value: 'mrs' },
+                        ],
+                        roles :[
+                            { id:0, name:'finance' },
+                            { id:1, name:'operation' },
+                            { id:2, name:'administrating' },
+                        ],
+                        user : {
+                            title : "",
+                            username : "",
+                            roles : [],
+                            password : "",
+                            email : ""
+                        }
+                    }
+                },
+            });
+        });
+    </script>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+</head>
+
+<body>
+    <section class="content" id="user-form" v-bind:user="user">
+        <table>
+            <tr> <td> Form User </td> </tr>
+            <tr> <td> Title: </td> </tr>
+            <tr> <td> <select v-model="user.title"><option v-for="title in titles" v-bind:value="title.value">{{title.name}}</option></td> </tr>
+            <tr> <td> title selected : {{user.title}} </td></tr>
+            <tr> <td> name: </td> </tr>
+            <tr> <td> <input v-model="user.username" placeholder="username" /> </td> </tr>
+            <tr> <td> roles: </td> </tr>
+            <tr v-for="role in roles" :key="role.id"> <td>
+                <input type="checkbox" :id="role.name" :value="role.name" v-model="user.roles" />
+                <label for="role.name">{{role.name}}</label>
+            </td> </tr>
+            <tr> <td> roles selected : {{user.roles}} </td></tr>
+            <tr> <td> password: </td> </tr>
+            <tr> <td> <input type="password" v-model="user.password" placeholder="Password" /> </td> </tr>
+            <tr> <td> name: </td> </tr>
+            <tr> <td> <input v-model="user.email" placeholder="email" /> </td> </tr>
+        </table>
+    </section>
+</body>
+
+</html>

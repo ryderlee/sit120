@@ -1,0 +1,98 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIT120 Task 4</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-easy-lightbox@vue2/dist/vue-easy-lightbox.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var complete_component = {
+                template : '#complete-template',
+                props:['identifier'],
+            }
+
+
+            var todo_component = {
+                template:'#todo-item-template',
+                props:['todo'],
+                components : {'complete-button': complete_component},
+                methods: {
+                    onTodoItemCompleted : function(evt, id){
+                        var item = this.$data.taskList.find(taskItem => taskItem.id === id);
+                        var idx = this.$data.taskList.indexOf(item);
+                        this.$data.taskList.splice(idx, 1);
+                        return true;
+                    },
+                    timestampToDateTime : function (timestamp) {
+                        var date = new Date(timestamp);
+                        var dateString =  date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2) + " " + date.getDate() 
+                            + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                        return dateString;
+                    },
+                    complete_item : function (){
+                        alert('complete?');
+                    }
+                },
+            };
+            const tm = new Vue({
+                el: '#todo1',
+                components : {'todo-item' : todo_component},
+                data:{
+                        message: "My routine for SIT120",
+                        taskList: [
+                            { id: 1, title: 'weekly class video', createTimestamp : '1632922000000', isDone: false },
+                            { id: 2, title: 'practice on github', createTimestamp : '1632822000000', isDone: false },
+                            { id: 3, title: 'submit assessment', createTimestamp : '1632822000000', isDone: false },
+                            { id: 4, title: 'virtual visit Deakin', url : "https://www.youtube.com/watch?v=IBSIckQWTVg", createTimestamp : '1632822000000', isDone: false }
+                        ]
+                }
+            });
+        });
+    </script>
+    <script type="text/x-template" id="complete-template">
+        <button v-blind:id="identifier" @click="$emit('perform-completion', identifier)">Confirm to delete<slot></slot>?</button>
+    </script>
+    <script type="text/x-template" id="todo-item-template">
+        <div class="tr">
+            <div class="td numbering"> {{todo.id}} </div>
+            <div class="td" v-bind:class="[todo.isDone ? 'isCompleted' : 'isNotCompleted']">
+                {{todo.title.toUpperCase()}} <img src="play.png" v-if="todo.url" width="32"/>
+            </div>
+            <div class="td" v-if="todo.createTimestamp < (new Date())" style="color: red;"> {{timestampToDateTime(parseInt(todo.createTimestamp))}} </div>
+            <div class="td" v-else> {{timestampToDateTime(parseInt(todo.createTimestamp))}} </div>
+            <div class="td">
+                <complete-button @perform-completion="complete_item" v-bind:identifier="todo.id">{{todo.id}}</complete-button>
+            </div>
+        </div>
+    </script>
+    <link rel="stylesheet" type="text/css" href="task1.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+</head>
+
+<body>
+    <nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+      <label class="logo">Detox 🥤</label>
+      <ul>
+        <li><a href="#">Inbox</a></li>
+        <li><a class="active" href="#">Todo</a></li>
+        <li><a href="#">References</a></li>
+        <li><a href="#">Archived</a></li>
+        <li><a href="#">Sign out</a></li>
+      </ul>
+    </nav>
+    <section class="content">
+        <div class="css-table" id="todo1">
+                <div class="tr"> <div class="td"> <h1 style="font-weight: bold; color : red;">{{message}}</h1> </div> </div>
+                <todo-item v-for="item in taskList" v-bind:todo="item" v-bind:key="item.id"> </todoComponent>
+        </div>
+    </section>
+</body>
+
+</html>

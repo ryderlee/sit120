@@ -1,0 +1,144 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIT120 Task 5</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-easy-lightbox@vue2/dist/vue-easy-lightbox.umd.min.js"></script>
+    <script>
+        function handlePermission() {
+            navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+                if (result.state == 'granted') {
+
+                } else if (result.state == 'prompt') {
+                    navigator.geolocation.getCurrentPosition(revealPosition, positionDenied, geoSettings);
+                } else if (result.state == 'denied') {
+                    report(result.state);
+                }
+                result.onchange = function () {
+                    report(result.state);
+                }
+            });
+        }
+        // handlePermission();
+        document.addEventListener('DOMContentLoaded', function () {
+            const app = new Vue({
+                el: "#todo1",
+                methods: {
+                        onTodoItemCompleted : function(evt, id){
+                            var item = this.$data.taskList.find(taskItem => taskItem.id === id);
+                            var idx = this.$data.taskList.indexOf(item);
+                            this.$data.taskList.splice(idx, 1);
+                            return true;
+                        },
+                        timestampToDateTime : function (timestamp) {
+                            var date = new Date(timestamp);
+                            var dateString =  date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2) + " " + date.getDate() 
+                                + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                            return dateString;
+                        }
+                    },
+                data: {
+                    message: "My routine for SIT120",
+                    inbox : [
+                        {
+                            id: 1234,
+                            title : 'welcome to Deakin',
+                            content : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                        },
+                        {
+                            id: 1235,
+                            title : 'welcome to Deakin',
+                            content : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                        },
+                        {
+                            id: 1236,
+                            title : 'welcome to Deakin',
+                            content : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                        },
+                        {
+                            id: 1237,
+                            title : 'welcome to Deakin',
+                            content : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                        }
+                    ],
+
+                    taskList: [
+                        {
+                            id: 1,
+                            title: 'weekly class video',
+                            createTimestamp : '1632922000000',
+                            isDone: false
+                        },
+                        {
+                            id: 2,
+                            title: 'practice on github',
+                            createTimestamp : '1632822000000',
+                            isDone: false
+                        },
+                        {
+                            id: 3,
+                            title: 'submit assessment',
+                            createTimestamp : '1632822000000',
+                            isDone: false
+                        },
+                        {
+                            id: 4,
+                            title: 'virtual visit Deakin',
+                            url : "https://www.youtube.com/watch?v=IBSIckQWTVg",
+                            createTimestamp : '1632822000000',
+                            isDone: false
+                        }
+                    ]
+                },
+            });
+            //app.use(VueEasyLightbox);
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="task2.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
+</head>
+
+<body>
+    <nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+      <label class="logo">Detox 🥤</label>
+      <ul>
+        <li><a href="#">Inbox</a></li>
+        <li><a class="active" href="#">Todo</a></li>
+        <li><a href="#">References</a></li>
+        <li><a href="#">Archived</a></li>
+        <li><a href="#">Sign out</a></li>
+      </ul>
+    </nav>
+    
+
+    <section class="content" id="todo1">
+        <table id="todolist">
+            <tr>
+                <td colspan="3">
+                    <h1 style="font-weight: bold; color : red;">{{message}}</h1>
+                </td>
+            </tr>
+            <tr v-for="(item, index) in taskList">
+                <td class="numbering">
+                    {{item.id}}
+                </td>
+                <td v-bind:class="[item.isDone ? 'isCompleted' : 'isNotCompleted']">
+                    {{item.title.toUpperCase()}} <img src="play.png" v-if="item.url" width="32"/>
+                </td>
+                <td v-if="item.createTimestamp < (new Date())" style="color: red;"> {{timestampToDateTime(parseInt(item.createTimestamp))}} </td>
+                <td v-else> {{timestampToDateTime(parseInt(item.createTimestamp))}} </td>
+                <td>
+                    <button v:if="!item.isDone" v-on:click="onTodoItemCompleted($event, item.id)">Finished</button>
+                </td>
+            </tr>
+        </table>
+    </section>
+</body>
+
+</html>
